@@ -203,5 +203,14 @@ def read_command_line():
         default=None,
         help="A list of splits to remove empty queries from. Valid values for the list are: ['train', 'val']",  # noqa
     )
+
+    # add custom model parameters
+    parser.add_argument(
+        "--custom_model_path",
+        type=str,
+        default=None,
+        help="Path to the custom model file",
+    )
+
     configs = parser.parse_args()
     return configs, parser

@@ -51,6 +51,16 @@ def get_last_checkpoint(model_dir, suffix="t7"):
 
 
 def convert_length_to_mask(lengths):
+    """
+    Convert lengths to mask.
+    Generates a boolean mask tensor that can be used to identify
+    valid positions in sequences of varying lengths within a batch. 
+    Each row in the mask corresponds to a sequence, with True values 
+    indicating valid positions and False values indicating padding
+    positions. This is useful in tasks such as sequence modeling, 
+    where operations need to be applied only to valid parts of the 
+    sequences.
+    """
     max_len = lengths.max().item()
     mask = torch.arange(max_len, device=lengths.device).expand(
         lengths.size()[0], max_len

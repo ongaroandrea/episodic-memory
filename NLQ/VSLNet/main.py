@@ -101,6 +101,13 @@ def main(configs, parser):
         model = VSLNet(
             configs=configs, word_vectors=dataset.get("word_vector", None)
         ).to(device)
+
+        #Custom model
+        #TODO: Check if this is the correct way to load a custom model
+        if configs.custom_model_path is not None:
+            model.load_state_dict(torch.load(configs.custom_model_path))
+            print(f"Loaded custom model from {configs.custom_model_path}")
+
         optimizer, scheduler = build_optimizer_and_scheduler(model, configs=configs)
         # start training
         best_metric = -1.0
@@ -207,6 +214,7 @@ def main(configs, parser):
                     print(score_str, flush=True)
                     if writer is not None:
                         for name, value in score_dict.items():
+                            print(f"{name}: {value}", flush=True)
                             kk = name.replace("\n", " ")
                             writer.add_scalar(f"Val/{kk}", value, global_step)
 
