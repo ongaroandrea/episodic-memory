@@ -105,8 +105,9 @@ def main(configs, parser):
         #Custom model
         #TODO: Check if this is the correct way to load a custom model
         if configs.custom_model_path is not None:
-            model.load_state_dict(torch.load(configs.custom_model_path))
-            print(f"Loaded custom model from {configs.custom_model_path}")
+          filename = get_last_checkpoint(configs.custom_model_path, suffix="t7")
+          model.load_state_dict(torch.load(filename))
+          print(f"Loaded custom model from {configs.custom_model_path}")
 
         optimizer, scheduler = build_optimizer_and_scheduler(model, configs=configs)
         # start training
